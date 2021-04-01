@@ -1,16 +1,23 @@
 <!doctype html>
+
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <title>Wealthica Example Add-on</title>
   <style>
-    body { margin: 0; padding: 0; }
+    body {
+      margin: 0;
+      padding: 0;
+    }
   </style>
   <script type="text/javascript" src="https://wealthica.github.io/wealthica.js/dist/addon.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 </head>
+
 <body>
   <h3>This is the Wealthica Example Add-on.</h3>
   <p>Try some of the actions below:</p>
@@ -20,6 +27,12 @@
     <button type="button" disabled="disabled" id="addTransaction">Add Transaction</button>
     <button type="button" disabled="disabled" id="saveData">Save Data</button>
   </p>
+
+  <h3> Click the button to download the CSV file </h3>
+
+  <!-- create an HTML button to download the CSV file on click -->
+  <button onclick="download_csv_file()"> Download CSV </button>
+
   <textarea id="data" rows="8" cols="100"></textarea>
   <div id="result"></div>
 
@@ -107,17 +120,53 @@
       }
 
       // Compose a query object from the addon options to pass to the API calls.
-      function getQueryFromOptions (options) {
+      function getQueryFromOptions(options) {
         return {
           from: options.dateRangeFilter && options.dateRangeFilter[0],
           to: options.dateRangeFilter && options.dateRangeFilter[1],
           groups: options.groupsFilter,
           institutions: options.institutionsFilter,
-          investments: options.investmentsFilter === 'all' ? null: options.investmentsFilter,
+          investments: options.investmentsFilter === 'all' ? null : options.investmentsFilter,
         }
       }
     });
+
+    //create CSV file data in an array  
+    var csvFileData = [
+      ['Alan Walker', 'Singer'],
+      ['Cristiano Ronaldo', 'Footballer'],
+      ['Saina Nehwal', 'Badminton Player'],
+      ['Arijit Singh', 'Singer'],
+      ['Terence Lewis', 'Dancer']
+    ];
+
+    //create a user-defined function to download CSV file   
+    function download_csv_file() {
+
+      //define the heading for each row of the data  
+      var csv = 'Name,Profession\n';
+
+      //merge the data with CSV  
+      csvFileData.forEach(function (row) {
+        csv += row.join(',');
+        csv += "\n";
+      });
+
+      //display the created CSV data on the web browser   
+      document.write(csv);
+
+
+      var hiddenElement = document.createElement('a');
+      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+      hiddenElement.target = '_blank';
+
+      //provide the name for the CSV file to be downloaded  
+      hiddenElement.download = 'Famous Personalities.csv';
+      hiddenElement.click();
+    }
+
   </script>
 
 </body>
+
 </html>
