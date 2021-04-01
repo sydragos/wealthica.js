@@ -24,6 +24,7 @@
   <p>
     <button type="button" disabled="disabled" id="getTransactions">List Transactions</button>
     <button type="button" disabled="disabled" id="getPositions">List Positions</button>
+    <button type="button" disabled="disabled" id="getLiabilities">List Liabilities</button>
     <button type="button" disabled="disabled" id="addTransaction">Add Transaction</button>
     <button type="button" disabled="disabled" id="saveData">Save Data</button>
   </p>
@@ -89,6 +90,18 @@
           $('#result').html('Error:<br><code>' + err + '</code>');
         }).finally(function () {
           $('#getPositions').removeAttr('disabled');
+        });
+      });
+
+      $('#getLiabilities').on('click', function () {
+        $(this).attr('disabled', 'disabled');
+
+        addon.api.getLiabilities(getQueryFromOptions(addonOptions)).then(function (response) {
+          $('#result').html('List Liabilities Result:<br><code>' + JSON.stringify(response) + '</code>');
+        }).catch(function (err) {
+          $('#result').html('Error:<br><code>' + err + '</code>');
+        }).finally(function () {
+          $('#getLiabilities').removeAttr('disabled');
         });
       });
 
